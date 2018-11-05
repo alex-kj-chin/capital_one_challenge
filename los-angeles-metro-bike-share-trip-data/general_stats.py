@@ -22,6 +22,7 @@ def increm_dict(dictionary, key):
         else:
             dictionary[key] = [1, "2022-07-07T04:17:00", "2011-07-07T04:17:00"] # Arbitrary ISO later/earlier than all dates in data set
 
+# Check dates for normalization
 sanitized_df = df.dropna(subset=["Starting Station ID", "Ending Station ID", 'Start Time', 'End Time'])
 for _, row in sanitized_df.iterrows():
     increm_dict(station_start, row["Starting Station ID"])
@@ -38,6 +39,7 @@ for _, row in sanitized_df.iterrows():
 station_start = {k: v[0] / ((str_to_date(v[2]) - str_to_date(v[1])).days) for k, v in station_start.items()} # Normalize over number of days
 station_end = {k: v[0] / ((str_to_date(v[2]) - str_to_date(v[1])).days) for k, v in station_end.items()}
 
+# Normalize and data wrangling
 end_pairs = list(station_end.items())
 end_pairs.sort(key=lambda x: x[1], reverse=True)
 total_ends = 0

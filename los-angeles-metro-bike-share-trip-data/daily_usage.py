@@ -12,6 +12,7 @@ df = pd.read_csv("metro-bike-share-trip-data.csv")
 daily_usage = {}
 sanitized_df = df.dropna(subset=["Passholder Type", 'Start Time'])
 
+# Various functions for different timeframes
 def increm_week(day):
     for day_k in daily_usage.keys():
         if abs((day - day_k).days) <= 3:
@@ -34,6 +35,7 @@ for _, row in sanitized_df.iterrows():
         day = str_to_date(row["Start Time"].split("T")[0]) # We only care about the day
         increm_day(day)
 
+# Itterate through for seasonal usage
 seasonal_usage = {"Spring":0, "Summer":0, "Fall":0, "Winter":0}
 day_count = {"Spring":0, "Summer":0, "Fall":0, "Winter":0}
 for k, v in daily_usage.items():
